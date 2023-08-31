@@ -17,14 +17,20 @@ const getPuppies = async () => {
     const puppyData = await fetchPuppy.json();
     data.allPlayers = puppyData.data.players
     console.log(data.allPlayers)
+    console.log(typeof(data.allPlayers))
 }
 
+
+// render all puppy info into html document boxes
 const renderAllPuppies = () => {
     const puppies = data.allPlayers.map((player) => {
         return `
-        <div>
-            <a href="#${player.id}"> </a>
-        </div>
+            <div id="pupbox2">
+                <a href="#${player.id}">
+                    <h2 align="center">${player.name}</h2> 
+                </a>
+                <p align="center"> ${player.breed} </p>
+            </div>
         
         `
 
@@ -38,7 +44,7 @@ const renderAllPuppies = () => {
 }
 
 
-
+// gets everything that needs to be rendered into one single async render function
 async function render() {
     await getPuppies()
     renderAllPuppies()
