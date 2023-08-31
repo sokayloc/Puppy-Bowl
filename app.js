@@ -10,14 +10,23 @@ const data =  {
     
 }
 
+window.addEventListener('hashchange', ()=> {
+console.log(window.location.hash)
+hashEventGet()
+})
+
+function hashEventGet(){
+    const ID = decodeURI(window.location.hash.slice(1))
+
+}
+
 // function to get all puppy info from api
 const getPuppies = async () => {
    const fetchPuppy = await fetch
    ("https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players");
     const puppyData = await fetchPuppy.json();
     data.allPlayers = puppyData.data.players
-    console.log(data.allPlayers)
-    console.log(typeof(data.allPlayers))
+    console.log("state --> ", data)
 }
 
 
@@ -39,6 +48,11 @@ const renderAllPuppies = () => {
     playerListDiv.innerHTML = puppies.join('')
 }
 
+const renderSinglePuppy = async () => {
+    const singlePuppy = await fetch(state)
+
+}
+
 
 // gets everything that needs to be rendered into one single async render function
 async function render() {
@@ -47,6 +61,7 @@ async function render() {
 
 }
 //
+
 
 render()
 
