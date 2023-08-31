@@ -1,0 +1,14 @@
+#pupbox {
+    
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap
+}
+
+#pupbox2 {
+    border: black 2px double;
+    border-radius: 70px;
+    margin: 10px;
+    padding: 100px 10px 100px 10px; 
+    background-color:cornsilk;
+}

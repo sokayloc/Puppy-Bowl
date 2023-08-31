@@ -33,10 +33,6 @@ const renderAllPuppies = () => {
             </div>
         
         `
-
-
-    
-    
         })
 
     
