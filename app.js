@@ -10,14 +10,35 @@ const data =  {
     
 }
 
-window.addEventListener('hashchange', ()=> {
-console.log(window.location.hash)
-hashEventGet()
+// calls other functions that identify single player
+function identifyPlayer(){
+    console.log("hashevent")
+    hashEventGet();
+    renderPuppyDetails();
+}
+
+window.addEventListener("hashchange", ()=> {
+    console.log(window.location.hash)
+    hashEventGet();
+    renderPuppyDetails();
 })
 
+
+// gets the event from the hash
 function hashEventGet(){
     const ID = decodeURI(window.location.hash.slice(1))
+    data.singlePlayer = data.allPlayers.find((player) => {
 
+        return player.id === ID
+    })
+    console.log("state ==> ", data)
+}
+
+// render the details of the player we are singling out
+function renderPuppyDetails() {
+    if (data.singlePlayer) {
+        renderSinglePuppy()
+    }
 }
 
 // function to get all puppy info from api
@@ -49,16 +70,23 @@ const renderAllPuppies = () => {
 }
 
 const renderSinglePuppy = async () => {
-    const singlePuppy = await fetch(state)
-
+    const singlePuppy = await fetch(data.singlePlayer.url);
+    const playerData = await singlePuppy.json();
+    console.log(playerData)
+    singlePlayerDiv.innerHTML = `
+        <div>
+            <h3>${playerData.name}</h3>
+            <img src="${playerData.imageUrl}">
+        </div>
+    `
 }
 
 
 // gets everything that needs to be rendered into one single async render function
 async function render() {
-    await getPuppies()
-    renderAllPuppies()
-
+    await getPuppies();
+    renderAllPuppies();
+    identifyPlayer();
 }
 //
 
