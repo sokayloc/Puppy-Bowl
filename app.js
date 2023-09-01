@@ -76,10 +76,10 @@ const renderSinglePuppy = async () => {
         <div>
             <h3>${playerData.data.player.name}</h3>
             <p>${playerData.data.player.breed}</p>
-            <img src="${playerData.data.player.imageUrl}">
+            <img src="${playerData.data.player.imageUrl}" width="300" />
         </div>
     `
-    console
+    
 }
 
 
