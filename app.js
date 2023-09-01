@@ -1,37 +1,34 @@
 
 // variable for single puppy and puppy list when needed
-const singlePlayerDiv = document.getElementById("singlePuppy");
+const singlePlayerDiv = document.getElementById("single");
 const playerListDiv = document.getElementById("pupbox");
 
 //data const to hold data from api
-const data =  {
+const data = {
     singlePlayer: null,
-    allPlayers: [] 
-    
+    allPlayers: []
 }
 
+// listens for when the has changes. if it does runs identifyPlayer function
+window.addEventListener("hashchange", identifyPlayer);
 // calls other functions that identify single player
-function identifyPlayer(){
+function identifyPlayer() {
     console.log("hashevent")
     hashEventGet();
     renderPuppyDetails();
 }
 
-window.addEventListener("hashchange", ()=> {
-    console.log(window.location.hash)
-    hashEventGet();
-    renderPuppyDetails();
-})
 
 
 // gets the event from the hash
-function hashEventGet(){
+function hashEventGet() {
+    // remove # from ID in url
     const ID = decodeURI(window.location.hash.slice(1))
     data.singlePlayer = data.allPlayers.find((player) => {
 
         return player.id === ID
     })
-    console.log("state ==> ", data)
+    console.log("data ==> ", data)
 }
 
 // render the details of the player we are singling out
@@ -43,8 +40,8 @@ function renderPuppyDetails() {
 
 // function to get all puppy info from api
 const getPuppies = async () => {
-   const fetchPuppy = await fetch
-   ("https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players");
+    const fetchPuppy = await fetch
+        ("https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players");
     const puppyData = await fetchPuppy.json();
     data.allPlayers = puppyData.data.players
     console.log("state --> ", data)
@@ -63,17 +60,16 @@ const renderAllPuppies = () => {
             </div>
         
         `
-        })
-
-    
+    })
     playerListDiv.innerHTML = puppies.join('')
 }
 
 const renderSinglePuppy = async () => {
-    const singlePuppy = await fetch(data.singlePlayer.url);
+    const singlePuppy = await fetch(data.singlePlayer.url)
     const playerData = await singlePuppy.json();
     console.log(playerData)
-    singlePlayerDiv.innerHTML = `
+    singlePlayerDiv.innerHTML = 
+    `
         <div>
             <h3>${playerData.name}</h3>
             <img src="${playerData.imageUrl}">
@@ -88,8 +84,6 @@ async function render() {
     renderAllPuppies();
     identifyPlayer();
 }
-//
-
 
 render()
 
