@@ -3,13 +3,13 @@
 const singlePlayerDiv = document.getElementById("single");
 const playerListDiv = document.getElementById("pupbox");
 
-//data const to hold data from api
+//data const to hold data from api & indentify player
 const data = {
     singlePlayer: null,
     allPlayers: []
 }
 
-// listens for when the has changes. if it does runs identifyPlayer function
+// listens for when the hash changes. if it does runs identifyPlayer function
 window.addEventListener("hashchange", identifyPlayer);
 // calls other functions that identify single player
 function identifyPlayer() {
@@ -23,28 +23,31 @@ function identifyPlayer() {
 // gets the event from the hash
 function hashEventGet() {
     // remove # from ID in url
-    const ID = decodeURI(window.location.hash.slice(1))
+    const ID = +window.location.hash.slice(1)
     data.singlePlayer = data.allPlayers.find((player) => {
-
+        console.log(typeof(player.id))
         return player.id === ID
     })
-    console.log("data ==> ", data)
+    
+    console.log("data ==> ", data.allPlayers)
+    console.log(typeof(ID))
+    console.log("singlepayer data ==> ", data.singlePlayer)
 }
-
-// render the details of the player we are singling out
+// if singleplayer is used. render the details of the player we are singling out
 function renderPuppyDetails() {
     if (data.singlePlayer) {
-        renderSinglePuppy()
+        console.log("if state ran")
+        renderSinglePuppy();
     }
 }
 
 // function to get all puppy info from api
 const getPuppies = async () => {
     const fetchPuppy = await fetch
-        ("https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players");
+        (`https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players`);
     const puppyData = await fetchPuppy.json();
     data.allPlayers = puppyData.data.players
-    console.log("state --> ", data)
+    console.log("data --> ", data)
 }
 
 
@@ -65,16 +68,18 @@ const renderAllPuppies = () => {
 }
 
 const renderSinglePuppy = async () => {
-    const singlePuppy = await fetch(data.singlePlayer.url)
+    const singlePuppy = await fetch (`https://fsa-puppy-bowl.herokuapp.com/api/2307-FTB-ET-WEB-FT/players/${data.singlePlayer.id}`)
     const playerData = await singlePuppy.json();
-    console.log(playerData)
+    console.log("player data==>", playerData.data.player)
     singlePlayerDiv.innerHTML = 
     `
         <div>
-            <h3>${playerData.name}</h3>
-            <img src="${playerData.imageUrl}">
+            <h3>${playerData.data.player.name}</h3>
+            <p>${playerData.data.player.breed}</p>
+            <img src="${playerData.data.player.imageUrl}">
         </div>
     `
+    console
 }
 
 
